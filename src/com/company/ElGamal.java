@@ -91,12 +91,35 @@ public class ElGamal {
         BigInteger s4 = s3.add(r5);
         BigInteger r = s4.add(r6); //r is our random number
 
+        //find proper milisecond and add it to random value r
+        int milisecond = 0;
+        BigInteger randomMili;
+        while (milisecond < 1000){
+            randomMili = r.add(BigInteger.valueOf(milisecond));
+            if (c1 == (pow(g, randomMili).mod(p))){
+                r = randomMili;
+                break;
+            }
+            milisecond++;
+
+        }
+
+        BigInteger yPowR = pow(y, r);
+        System.out.println("yPowR is " + yPowR);
+        BigInteger yPowRInverse = yPowR.modInverse(p);
+        System.out.println("yPowRInverse is "+ yPowRInverse);
+        m = c2.multiply(yPowRInverse);
+        /*
         BigInteger denominator = pow(y, r);
         BigInteger fraction = c2.divide(denominator);
 
         m = fraction.mod(p);
-        
+        **/
+
+
         return m;
     }
+
+
 
 }
