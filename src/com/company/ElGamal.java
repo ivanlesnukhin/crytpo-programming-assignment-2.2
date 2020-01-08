@@ -92,8 +92,19 @@ public class ElGamal {
         BigInteger r = s4.add(r6); //r is our random number
 
         //find proper milisecond and add it to random value r
-        int milisecond = 0;
-        BigInteger randomMili;
+        //BigInteger milisecond = BigInteger.ZERO;
+        BigInteger mili;
+        int i = 0;
+        while (i<1000){
+            mili = r.add(BigInteger.valueOf(i));
+            if (c1 == g.modPow(mili, p)){
+                r = mili;
+                break;
+            }
+            i++;
+
+        }
+        /**
         while (milisecond < 1000){
             randomMili = r.add(BigInteger.valueOf(milisecond));
             if (c1 == (pow(g, randomMili).mod(p))){
@@ -103,8 +114,10 @@ public class ElGamal {
             milisecond++;
 
         }
+        */
 
-        BigInteger yPowR = pow(y, r);
+        //BigInteger yPowR = pow(y, r);
+        BigInteger yPowR = g.modPow(r, p);
         System.out.println("yPowR is " + yPowR);
         BigInteger yPowRInverse = yPowR.modInverse(p);
         System.out.println("yPowRInverse is "+ yPowRInverse);
